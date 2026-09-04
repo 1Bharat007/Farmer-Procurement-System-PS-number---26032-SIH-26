@@ -1,0 +1,28 @@
+{
+  "HomePage": {
+    "title": "Farmer Procurement Queue & Slot Management Platform",
+    "subtitle": "Smart India Hackathon 2026 — Ministry of Consumer Affairs, Food & Public Distribution",
+    "farmerPortal": "Farmer Portal",
+    "farmerDesc": "Book grain delivery slots, track live tokens, and receive SMS alerts.",
+    "adminPortal": "Admin & Centre Dashboard",
+    "adminDesc": "Monitor real-time gate intake, adjust quotas, and oversee queue management.",
+    "backendStatus": "Backend System Health Status",
+    "connecting": "Connecting to backend API...",
+    "healthy": "Connected & Operational",
+    "offline": "Backend Offline / Unreachable",
+    "refreshHealth": "Check Health Again",
+    "quickLinks": "Quick Navigation"
+  },
+  "Farmer": {
+    "title": "Farmer Self-Service Portal",
+    "bookSlot": "Book New Delivery Slot",
+    "liveQueue": "Live Queue Status",
+    "myBookings": "My Booking History"
+  },
+  "Admin": {
+    "title": "Procurement Centre Administration",
+    "centreCapacity": "Centre Capacity Overview",
+    "queueManagement": "Active Queue Management",
+    "analytics": "Intake & MSP Analytics"
+  }
+}

@@ -1,0 +1,43 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --google-navy: #0B3D91;
+    --google-navy-hover: #082E6E;
+    --google-blue: #1A73E8;
+    --google-blue-hover: #1557B0;
+    --google-surface: #FFFFFF;
+    --google-bg: #F8F9FA;
+    --google-border: #DADCE0;
+    --google-text-primary: #202124;
+    --google-text-secondary: #5F6368;
+    --google-success: #1E8E3E;
+    --google-success-tint: #E6F4EA;
+    --google-success-text: #137333;
+    --google-error: #D93025;
+    --google-error-tint: #FCE8E6;
+    --google-error-text: #C5221F;
+    --google-warning: #E37400;
+    --google-warning-tint: #FEF7E0;
+    --google-warning-text: #B06000;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  html,
+  body {
+    background-color: var(--google-surface);
+    color: var(--google-text-primary);
+    font-family: var(--font-roboto), Roboto, -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Material Design 3 focus outline */
+  :focus-visible {
+    outline: 2px solid var(--google-navy);
+    outline-offset: 2px;
+  }
+}
