@@ -27,7 +27,7 @@ DEBUG = config('DEBUG', default=True, cast=bool)
 
 ALLOWED_HOSTS = config(
     'ALLOWED_HOSTS',
-    default='localhost,127.0.0.1,backend,0.0.0.0',
+    default='localhost,127.0.0.1,backend,0.0.0.0,testserver',
     cast=Csv()
 )
 
@@ -122,6 +122,14 @@ else:
             'PORT': DB_PORT,
         }
     }
+
+# Custom User Model
+AUTH_USER_MODEL = 'accounts.Farmer'
+
+AUTHENTICATION_BACKENDS = [
+    'accounts.backends.PhoneOrUsernameAuthBackend',
+    'django.contrib.auth.backends.ModelBackend',
+]
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators

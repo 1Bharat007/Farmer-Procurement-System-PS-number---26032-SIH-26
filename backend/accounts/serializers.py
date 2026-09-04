@@ -1,13 +1,18 @@
 from rest_framework import serializers
-from django.contrib.auth.models import User
-from .models import FarmerProfile, StaffProfile
+from .models import Farmer, CentreOperator, OTPRecord
 
 
-class FarmerProfileSerializer(serializers.ModelSerializer):
+class FarmerSerializer(serializers.ModelSerializer):
+    """
+    Serializer for the Farmer custom user model.
+    """
+    phone = serializers.CharField(source='phone_number', read_only=True)
+
     class Meta:
-        model = FarmerProfile
+        model = Farmer
         fields = [
             'id',
+            'phone_number',
             'phone',
             'full_name',
             'village',
@@ -15,15 +20,44 @@ class FarmerProfileSerializer(serializers.ModelSerializer):
             'state',
             'preferred_language',
             'crop_type',
+            'is_staff',
+            'date_joined',
+        ]
+        read_only_fields = ['id', 'is_staff', 'date_joined']
+
+
+# Alias for backward compatibility
+FarmerProfileSerializer = FarmerSerializer
+
+
+class CentreOperatorSerializer(serializers.ModelSerializer):
+    """
+    Serializer for Centre Operator profiles with nested centre details.
+    """
+    user = FarmerSerializer(read_only=True)
+    centre_name = serializers.CharField(source='centre.name', read_only=True)
+    centre_district = serializers.CharField(source='centre.district', read_only=True)
+
+    class Meta:
+        model = CentreOperator
+        fields = [
+            'id',
+            'user',
+            'centre',
+            'centre_name',
+            'centre_district',
+            'badge_number',
+            'is_active',
             'created_at',
         ]
+        read_only_fields = ['id', 'created_at']
 
 
 class SendOTPSerializer(serializers.Serializer):
     phone = serializers.CharField(max_length=15, required=True)
 
     def validate_phone(self, value):
-        cleaned = value.strip().replace(" ", "").replace("-", "")
+        cleaned = str(value).strip().replace(" ", "").replace("-", "")
         if cleaned.startswith("+91"):
             cleaned = cleaned[3:]
         if not cleaned.isdigit() or len(cleaned) != 10:
@@ -36,7 +70,7 @@ class VerifyOTPSerializer(serializers.Serializer):
     otp = serializers.CharField(max_length=6, required=True)
 
     def validate_phone(self, value):
-        cleaned = value.strip().replace(" ", "").replace("-", "")
+        cleaned = str(value).strip().replace(" ", "").replace("-", "")
         if cleaned.startswith("+91"):
             cleaned = cleaned[3:]
         if not cleaned.isdigit() or len(cleaned) != 10:
@@ -44,7 +78,7 @@ class VerifyOTPSerializer(serializers.Serializer):
         return cleaned
 
     def validate_otp(self, value):
-        cleaned = value.strip()
+        cleaned = str(value).strip()
         if not cleaned.isdigit() or len(cleaned) != 6:
             raise serializers.ValidationError("OTP must be a 6-digit number.")
         return cleaned
@@ -60,7 +94,7 @@ class FarmerRegisterSerializer(serializers.Serializer):
     crop_type = serializers.CharField(max_length=100, required=False, default="Wheat")
 
     def validate_phone(self, value):
-        cleaned = value.strip().replace(" ", "").replace("-", "")
+        cleaned = str(value).strip().replace(" ", "").replace("-", "")
         if cleaned.startswith("+91"):
             cleaned = cleaned[3:]
         if not cleaned.isdigit() or len(cleaned) != 10:
